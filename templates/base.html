@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>{{title}}</title>
+    </head>
+<body>
+
+    <div>
+        <table cellspacing="10">
+            <tr>
+                <td>
+                    <a href='/blog'>Main Blog Page </a>
+                </td>
+                <td>
+                    <a href='/newpost'> Add a New Entry</a>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        <ul>
+        {% for category,message in messages %}
+            <li class="{{category}}">{{message}}</li>
+        {% endfor %}
+        </ul>
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
