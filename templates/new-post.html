@@ -3,16 +3,17 @@
 {% block content %}
 <h1><er>New Post</er></h1>
 <form action='/newpost' method='POST'>
-    <label>Title 
+    <label>Title for your new blog:
+        <br>
         <input id='title' type="text" name='title' />
         <p class="error">{{title_error}}</p>
     </label>
-    <label>Body
-        <!-- <textarea id='body' rows="4" cols="50" name='body'>
-        </textarea> -->
-        <input id='body' type="text" name='body'/>
+    <label>Your new blog:
+        <br>
+        <textarea id='body' type="textarea" name="body"></textarea>
+        <br>
         <p class="error">{{body_error}}</p>
     </label>
-    <input type='submit' />
+    <input type='submit' value='Add Entry' />
 </form>
 {% endblock %}

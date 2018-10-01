@@ -3,9 +3,9 @@
 {% block content %}
 <body>
     <h1><er><center>Build a blog</center></er></h1>
-    {% for blog in blogs: %}
-        <a href="/post?={{blog.title}}"><h2>{{blog.title}}</h2></a>
-        <p>{{blog.body}}</p>
+    {% for post in posts: %}
+        <a href="/blog?id={{post.id}}"><h2>{{post.title}}</h2></a>
+        <p>{{post.body}}</p>
         <br>
     {% endfor %}
 </body>

@@ -20,41 +20,57 @@ class Blog(db.Model):
         self.body = body
 
 
-def get_blog_posts():
-    Blogs = Blog.query.all()
-    return Blogs
+@app.route("/")
+def index():
+    return redirect("/blog")
 
 @app.route('/blog', methods=['POST', 'GET'])
-def index():
-    return render_template('main-page.html', blogs=get_blog_posts())
+def blog():
+    blog_id = request.args.get('id')
+    print(f'{blog_id}')
+    posts = Blog.query.all()
 
+    if blog_id:
+        post = Blog.query.filter_by(id=blog_id).first()
+        return render_template("post.html", title=post.title, body=post.body,)
+
+    return render_template('main-page.html', posts=posts)
+
+@app.route('/newpost')
+def post():
+    return render_template('new-post.html', title="New Post")
 
 @app.route('/newpost', methods=['POST', 'GET'])
-def new_post():
-    if request.method == 'POST':
-        title = request.form['title']
-        title_error = ''
-        if title == '':
-            title_error = 'Title cannot be empty!'
+def newpost():
+    title = request.form['title']
+    body = request.form['body']
+    print(body)
 
-        body = request.form['body']
-        body_error = ''
-        if body == '':
-            body_error = 'Body cannot be empty!'
-        
-        if not body_error and not title_error:
-            new_blog = Blog(title, body)
-            db.session.add(new_blog)
-            db.session.commit()
-            return redirect('/blog')
-        return render_template('new-post.html',
-            body_error = body_error,
-            title_error = title_error)
+    title_error = ""
+    body_error = ""
 
-    return render_template('new-post.html')
+    if title == "":
+        title_error = "Title required."
+
+    if body == "":
+        body_error = "Content required."
+
+
+    if not title_error and not body_error:
+        new_post = Blog(title, body)
+        db.session.add(new_post)
+        db.session.commit()
+        page_id = new_post.id
+        return redirect(f"/blog?id={page_id}")
+    else:
+        return render_template("new-post.html",
+            title = title,
+            body = body,
+            title_error = title_error,
+            body_error = body_error
+        )
+
     
-    
-
 
 if __name__ == '__main__':
     app.run()
