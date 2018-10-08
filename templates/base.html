@@ -7,14 +7,28 @@
         .error {
             color: red;
         }
+        div {
+            padding-right: 350px;
+            padding-left: 350px;
+        }   
     </style>
 <body>
 
+    <div style='float: right'>
+        {% if 'user' in session %}
+
+          <a href="/blog?user={{ session['user'] }}">{{ session['user'] }}</a> | <a href="/logout">logout</a>
+          <!-- <form action="/logout" method="post" id='logout'><input type="submit" value="Log Out" /></form> -->
+          
+        {% else %}
+          <a href="login">login</a> | <a href="register">register</a>
+        {% endif %}
+    </div>
     <div>
         <table cellspacing="10">
             <tr>
                 <td>
-                    <a href='/blog'>Main Blog Page </a>
+                    <a href='/'>Main Blog Page </a>
                 </td>
                 <td>
                     <a href='/newpost'> Add a New Entry</a>
@@ -23,17 +37,21 @@
             </tr>
         </table>
     </div>
+    <div>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            <ul>
+            {% for category,message in messages %}
+                <li class="{{category}}">{{message}}</li>
+            {% endfor %}
+            </ul>
+        {% endwith %}
+    </div>
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        <ul>
-        {% for category,message in messages %}
-            <li class="{{category}}">{{message}}</li>
-        {% endfor %}
-        </ul>
-    {% endwith %}
-
+    <div>
     {% block content %}
+    #block content goes here
     {% endblock %}
+    </div> 
 
 </body>
 </html>
