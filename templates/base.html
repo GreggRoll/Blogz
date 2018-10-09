@@ -13,29 +13,16 @@
         }   
     </style>
 <body>
-
+    <!-- If the user is in a session it will switch the right side to user and logout instead of login and register -->
     <div style='float: right'>
         {% if 'user' in session %}
-
           <a href="/blog?user={{ session['user'] }}">{{ session['user'] }}</a> | <a href="/logout">logout</a>
-          <!-- <form action="/logout" method="post" id='logout'><input type="submit" value="Log Out" /></form> -->
-          
         {% else %}
           <a href="login">login</a> | <a href="register">register</a>
         {% endif %}
     </div>
     <div>
-        <table cellspacing="10">
-            <tr>
-                <td>
-                    <a href='/'>Main Blog Page </a>
-                </td>
-                <td>
-                    <a href='/newpost'> Add a New Entry</a>
-                </td>
-                
-            </tr>
-        </table>
+        <a href='/'>Main Blog Page</a> | <a href='/newpost'>Add a New Entry</a>
     </div>
     <div>
         {% with messages = get_flashed_messages(with_categories=True) %}
