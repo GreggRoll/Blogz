@@ -29,7 +29,7 @@ def login():
         #if username not in db
         flash('username not found, please register', category='error')
         return redirect("/register")
-        
+
     #if req method is get it means its your first time to the page
     else:
         return render_template('login.html')
@@ -62,16 +62,17 @@ def register():
             password_error = "Enter a password!"
             password == ''
         elif ' ' in password or len(password) < 3 or len(password) > 20:
-            password_error = "Password is not valid!"
+            password_error = "Password is not valid! password must be 3-20 characters and cannot contain a space or special characters."
             password = ''
         #verify validation
         verify = request.form['verify']
         verify_error = ''
         if password != verify:
             verify_error = 'passwords did not match'
-
+        
         #displays form with errors if there is a error
         if (username_error or password_error or verify_error):
+            flash('one or more fields are invalid.', category='error')
             return render_template('register.html', 
             title='Register',
             username_error=username_error,
