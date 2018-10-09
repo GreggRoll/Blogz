@@ -107,9 +107,15 @@ def blog():
         posts = Blog.query.filter_by(author_id=user.id)
         return render_template('main-page.html', posts=posts, title=f"{user.username} is a chump.")
 
+    posts = Blog.query.all()
+    # user = User.query.filter_by(user_id=blog.id) 
+    #need to get username for each blog post
+    return render_template('all-posts.html', posts=posts, title='blog posts!')
+    #if someone types in or clicks on all posts return 
+    #all-posts.html
+    #need to pass in posts as all posts
+    
     #if someone types in /blog it gives an error so now it will just redirect them to main page with an error
-    flash("To view /blog click on a user", category='error')
-    return redirect ('/')
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
@@ -151,11 +157,11 @@ def index():
 
 
 #ensures users must log in to see the super secret posts
-endpoints_without_login = ['login', 'register']
+endpoints_without_login = ['login', 'register', 'blog']
 @app.before_request
 def require_login():
     if not ('user' in session or request.endpoint in endpoints_without_login):
-        return redirect("/register")
+        return redirect("/login")
 
 if __name__ == '__main__':
     app.run()
