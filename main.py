@@ -12,11 +12,24 @@ def login():
         if users.count() == 1:
             user = users.first()
             if password == user.password:
+                #password checks
                 session['user'] = user.username
                 flash('welcome back, '+user.username)
-                return redirect("/")
-        flash('bad username or password', category='error')
-        return redirect("/login")
+                return redirect("/newpost")
+
+            #if password is blank
+            if password == '':
+                flash('please enter a password', category='error')
+                return redirect("/login")
+
+            #if password does not match user.password
+            flash('password is incorrect', category='error')
+            return redirect("/login")
+
+        #if username not in db
+        flash('username not found, please register', category='error')
+        return redirect("/register")
+        
     #if req method is get it means its your first time to the page
     else:
         return render_template('login.html')
@@ -25,7 +38,7 @@ def login():
 #had to use post bc links
 def logout():
     del session['user']
-    return redirect("/")
+    return redirect("/login")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
