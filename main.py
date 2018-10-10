@@ -12,7 +12,7 @@ def login():
         users = User.query.filter_by(username=username)
         if users.count() == 1:
             user = users.first()
-            if user and check_pw_hash(password, user.pw_hash):
+            if check_pw_hash(password, user.pw_hash):
                 #password checks
                 session['user'] = user.username
                 flash('welcome back, '+user.username)
