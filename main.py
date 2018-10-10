@@ -108,14 +108,8 @@ def blog():
         return render_template('main-page.html', posts=posts, title=f"{user.username} is a chump.")
 
     posts = Blog.query.all()
-    # user = User.query.filter_by(user_id=blog.id) 
-    #need to get username for each blog post
     return render_template('all-posts.html', posts=posts, title='blog posts!')
-    #if someone types in or clicks on all posts return 
-    #all-posts.html
-    #need to pass in posts as all posts
     
-    #if someone types in /blog it gives an error so now it will just redirect them to main page with an error
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
